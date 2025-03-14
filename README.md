@@ -1,1 +1,1 @@
-Java Heartbeat Producer Application Code.
+Java Heartbeat Kafka Producer Application Code.
