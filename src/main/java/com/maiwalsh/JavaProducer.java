@@ -24,19 +24,19 @@ public class JavaProducer {
         if (topic == null || topic.isEmpty()) {
             topic = "test-topic";
             // Check if "test-topic" exists in Kafka, and create it if it does not exist
-            // try (AdminClient adminClient = AdminClient.create(getAdminProperties(confluentBrokerServer))) {
-            //     Set<String> topics = adminClient.listTopics().names().get();
-            //     if (!topics.contains("test-topic")) {
-            //         System.out.println("Creating topic: test-topic");
-            //         NewTopic newTopic = new NewTopic("test-topic", 1, (short) 1);
-            //         adminClient.createTopics(Collections.singletonList(newTopic)).all().get();
-            //     } else {
-            //         System.out.println("Topic 'test-topic' already exists. Using it.");
-            //     }
-            // } catch (InterruptedException | ExecutionException e) {
-            //     System.err.println("Error while checking/creating topic: " + e.getMessage());
-            //     System.exit(1);
-            // }
+            try (AdminClient adminClient = AdminClient.create(getAdminProperties(confluentBrokerServer))) {
+                Set<String> topics = adminClient.listTopics().names().get();
+                if (!topics.contains("test-topic")) {
+                    System.out.println("Creating topic: test-topic");
+                    NewTopic newTopic = new NewTopic("test-topic", 1, (short) 1);
+                    adminClient.createTopics(Collections.singletonList(newTopic)).all().get();
+                } else {
+                    System.out.println("Topic 'test-topic' already exists. Using it.");
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                System.err.println("Error while checking/creating topic: " + e.getMessage());
+                System.exit(1);
+            }
         }
 
         int intervalMs = Integer.parseInt(System.getenv("PRODUCER_INTERVAL_MS"));
