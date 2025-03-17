@@ -19,13 +19,26 @@ public class JavaProducer {
     public static void main(String[] args) {
         // Load configuration from environment variables
         String confluentBrokerServer = System.getenv("CONFLUENT_BROKER_SERVER");
+        System.out.println("Retrieved broker environment variable successfully.");
+
         String topic = System.getenv("KAFKA_TOPIC");
+        System.out.println("Retrieved kafka topic environment variable successfully.");
+
         // Check if topic is null or empty and assign default topic if necessary
         if (topic == null || topic.isEmpty()) {
             topic = "test-topic";
+            System.out.println(topic);
+
             // Check if "test-topic" exists in Kafka, and create it if it does not exist
+            System.out.println("Attempting admin client creation.");
             try (AdminClient adminClient = AdminClient.create(getAdminProperties(confluentBrokerServer))) {
                 Set<String> topics = adminClient.listTopics().names().get();
+                
+                System.out.println("All topics: ");
+                for (String t : topics) {
+                    System.out.println(t);
+                }
+
                 if (!topics.contains("test-topic")) {
                     System.out.println("Creating topic: test-topic");
                     NewTopic newTopic = new NewTopic("test-topic", 1, (short) 1);
