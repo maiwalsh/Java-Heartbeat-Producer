@@ -25,6 +25,7 @@ public class JavaProducer {
         System.out.println("Retrieved kafka topic environment variable successfully.");
 
         // Check if topic is null or empty and assign default topic if necessary
+            System.out.println(topic);
         if (topic == null || topic.isEmpty()) {
             topic = "test-topic";
             System.out.println(topic);
@@ -51,6 +52,7 @@ public class JavaProducer {
                 System.exit(1);
             }
         }
+        System.out.println(topic);
 
         int intervalMs = Integer.parseInt(System.getenv("PRODUCER_INTERVAL_MS"));
 
